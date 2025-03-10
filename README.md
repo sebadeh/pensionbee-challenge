@@ -4,7 +4,7 @@
 
 Business Scenario: Acme Co's marketing department want a simple content management system and you've been tasked with building the MVP.
 
-The challenge here is to create an express-based node.js application that displays HTML pages at URLs that match the paths of the folders and sub-folders in the `content` folder. The content of these pages should come from a combination of the template HTML file and a markdown file containing the content.
+The challenge here is to create a full-stack JavaScript application that returns webpages at URLs that match the paths of the folders and sub-folders in the `content` folder. The content of these pages should come from a combination of the template HTML file and a markdown file containing the content.
 
 For example, for a folder called `about-page`, a request to `/about-page` would return a HTML page created from the `template.html` template and the `about-page/index.md` content file. The `template.html` file contains a `{{content}}` placeholder that would be replaced by the content for each page. A request to `/blog/june/company-update` would return a HTML page using the content file at `blog/june/company-update/index.md`.
 
@@ -12,11 +12,11 @@ Acme's marketing department should be able to add extra folders to the `content`
 
 This repository contains a `template.html` template file and a sample `content` folder with sub-folders containing `index.md` markdown files (or other sub-folders).
 
-Your application may make use of open-source code libraries. It is entirely up to you how the application performs the challenge.
+Your application may make use of open-source code libraries and other third-party tools. It is entirely up to you how the application performs the challenge. As the use of LLMs is widespread in software engineering, you are permitted to use AI as you wish.
 
 ## Testing
 
-The application should be shipped with three tests:
+The application should be shipped with at minimum three tests, although your testing strategy should effectively test your application:
 
 - one that verifies that requests to valid URLs return a 200 HTTP status code
 - one that verifies that requests to valid URLs return a body that contains the HTML generated from the relevant `index.md` markdown file
