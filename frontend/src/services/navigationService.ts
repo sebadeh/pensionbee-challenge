@@ -7,7 +7,7 @@ export interface NavigationItem {
 }
 
 export const fetchNavigation = async (): Promise<string[]> => {
-  const response = await fetch(`${API_URL}/api/navigation`);
+  const response = await fetch(`${API_URL}/navigation`);
   if (!response.ok) {
     throw new Error("Failed to fetch navigation");
   }
