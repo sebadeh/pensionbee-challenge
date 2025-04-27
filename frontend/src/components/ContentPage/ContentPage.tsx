@@ -5,7 +5,7 @@ import { fetchContent } from "../../services/contentService";
 import SkeletonLoader from "../../SkeletonLoader/SkeletonLoader";
 import "./ContentPage.css";
 
-const ContentPage = () => {
+const ContentPage: React.FC = () => {
   const location = useLocation();
   const path = location.pathname.startsWith("/")
     ? location.pathname.slice(1)
@@ -23,7 +23,7 @@ const ContentPage = () => {
         console.log("Fetching content for path:", path);
         const markdownContent = await fetchContent(path);
         const renderer = new marked.Renderer();
-        renderer.link = (href, text) => {
+        renderer.link = (href: string, text: string) => {
           const cleanHref = href.startsWith("/") ? href.slice(1) : href;
           return `<a href="${cleanHref}" onclick="event.preventDefault(); window.history.pushState({}, '', '/${cleanHref}'); return false;">${text}</a>`;
         };

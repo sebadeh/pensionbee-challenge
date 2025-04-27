@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL || "";
+
 export interface NavigationItem {
   name: string;
   path: string;
@@ -5,7 +7,7 @@ export interface NavigationItem {
 }
 
 export const fetchNavigation = async (): Promise<string[]> => {
-  const response = await fetch("/api/navigation");
+  const response = await fetch(`${API_URL}/api/navigation`);
   if (!response.ok) {
     throw new Error("Failed to fetch navigation");
   }
