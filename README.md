@@ -36,7 +36,7 @@ Your application may make use of open-source code libraries and other third-part
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/sebadeh/pensionbee-challenge.git
    cd static-content-challenge-2025
    ```
 
@@ -65,7 +65,7 @@ Your application may make use of open-source code libraries and other third-part
 2. Start the frontend development server:
    ```bash
    cd frontend
-   npm start
+   npm run dev
    ```
 
 The application will be available at `http://localhost:3000`.
@@ -87,7 +87,7 @@ To run the tests:
 
 ```bash
 cd backend
-npm test
+npm run test
 ```
 
 ## API Documentation
@@ -110,24 +110,7 @@ npm test
 
 ## Deployment
 
-The application can be deployed to any cloud platform that supports Node.js applications. Here's how to deploy to Heroku:
-
-1. Create a Heroku app:
-
-   ```bash
-   heroku create
-   ```
-
-2. Set up the buildpacks:
-
-   ```bash
-   heroku buildpacks:add heroku/nodejs
-   ```
-
-3. Deploy:
-   ```bash
-   git push heroku main
-   ```
+The application can be deployed to any cloud platform that supports Node.js applications.
 
 ## Testing
 
