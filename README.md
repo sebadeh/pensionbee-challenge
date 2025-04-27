@@ -111,23 +111,4 @@ npm run test
 ## Deployment
 
 The application can be deployed to any cloud platform that supports Node.js applications.
-
-## Testing
-
-The application should be shipped with at minimum three tests, although your testing strategy should effectively test your application:
-
-- one that verifies that requests to valid URLs return a 200 HTTP status code
-- one that verifies that requests to valid URLs return a body that contains the HTML generated from the relevant `index.md` markdown file
-- one that verifies that requests to URLs that do not match content folders return a 404 HTTP status code
-- NB: the tests should not depend on the existing sub-folders in the `content` folder, so the tests do not break as the content changes
-
-## Bonus credit
-
-**NB: This is only relevant if completing this task in your own time, i.e. NOT in a pairing interview**
-
-In this MVP sprint, there are several opportunities to deliver nice-to-have tickets. The marketing team recognise that in a post-LLM world sprint velocity may be higher.
-
-- The generated HTML page should be styled in a pleasing way
-- The MVP's GitHub repository should be configured for hosting on a cloud hosting service, and include a link to a live deployment
-- The repository should include documentation describing how to both use the application and how to iterate it from here
-- Overall, you should do everything you think is necessary to make this application MVP production-ready
+Currently live at: https://pensionbee-challenge.vercel.app/
