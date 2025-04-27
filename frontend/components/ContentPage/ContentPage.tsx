@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { marked } from "marked";
-import { fetchContent } from "../services/contentService";
+import { fetchContent } from "../../services/contentService";
+import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 import "./ContentPage.css";
 
 const ContentPage = () => {
@@ -56,11 +57,29 @@ const ContentPage = () => {
   }, [navigate]);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="content-page loading">
+        <div className="content-skeleton">
+          <SkeletonLoader height="32px" width="80%" className="title" />
+          <SkeletonLoader height="24px" width="100%" className="paragraph" />
+          <SkeletonLoader height="24px" width="95%" className="paragraph" />
+          <SkeletonLoader height="24px" width="90%" className="paragraph" />
+          <SkeletonLoader height="24px" width="85%" className="paragraph" />
+          <SkeletonLoader height="24px" width="100%" className="paragraph" />
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="error">{error}</div>;
+    return (
+      <div className="content-page error">
+        <div className="error-message">
+          <span className="error-icon">⚠️</span>
+          {error}
+        </div>
+      </div>
+    );
   }
 
   return (

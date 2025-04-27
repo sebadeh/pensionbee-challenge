@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navigation from "./components/Navigation";
-import ContentPage from "./components/ContentPage";
+import Navigation from "./components/Navigation/Navigation";
+import ContentPage from "./components/ContentPage/ContentPage";
 import "./styles/App.css";
 
 function App() {

@@ -176,4 +176,41 @@
   .nav-overlay {
     display: none !important;
   }
+}
+
+.navigation.loading {
+  opacity: 0.8;
+}
+
+.navigation.loading ul {
+  margin-top: 1rem;
+}
+
+.navigation.loading li {
+  margin-bottom: 0.5rem;
+}
+
+.navigation.loading li ul {
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+.navigation.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: #fff5f5;
+  border: 1px solid #fed7d7;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #e53e3e;
+}
+
+.error-icon {
+  font-size: 1.2rem;
 } 

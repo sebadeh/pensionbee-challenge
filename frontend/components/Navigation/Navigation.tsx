@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { fetchNavigation } from "../services/navigationService";
+import { fetchNavigation } from "../../services/navigationService";
+import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 import "./Navigation.css";
 
 interface NavigationItem {
@@ -94,10 +95,41 @@ const Navigation = () => {
   };
 
   if (loading) {
-    return <nav className="navigation">Loading navigation...</nav>;
+    return (
+      <nav className="navigation loading">
+        <div className="nav-logo">
+          <SkeletonLoader width="120px" height="24px" />
+        </div>
+        <ul>
+          <li>
+            <SkeletonLoader width="60px" height="20px" />
+          </li>
+          {[1, 2, 3].map((i) => (
+            <li key={i}>
+              <SkeletonLoader width="100px" height="20px" />
+              <ul>
+                {[1, 2].map((j) => (
+                  <li key={j}>
+                    <SkeletonLoader width="80px" height="18px" />
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    );
   }
+
   if (error) {
-    return <nav className="navigation">{error}</nav>;
+    return (
+      <nav className="navigation error">
+        <div className="error-message">
+          <span className="error-icon">⚠️</span>
+          {error}
+        </div>
+      </nav>
+    );
   }
 
   return (
