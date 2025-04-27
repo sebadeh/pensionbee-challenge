@@ -16,6 +16,119 @@ This repository contains a `template.html` template file and a sample `content` 
 
 Your application may make use of open-source code libraries and other third-party tools. It is entirely up to you how the application performs the challenge. As the use of LLMs is widespread in software engineering, you are permitted to use AI as you wish.
 
+## Project Structure
+
+```
+.
+├── backend/              # Backend server code
+│   ├── src/             # Source files
+│   │   ├── server.ts    # Express server implementation
+│   │   └── content/     # Content directory
+│   └── package.json     # Backend dependencies
+├── frontend/            # Frontend React application
+│   ├── src/            # Source files
+│   └── package.json    # Frontend dependencies
+└── README.md           # Project documentation
+```
+
+## Installation and Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+   cd static-content-challenge-2025
+   ```
+
+2. Install backend dependencies:
+
+   ```bash
+   cd backend
+   npm install
+   ```
+
+3. Install frontend dependencies:
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+## Development
+
+1. Start the backend server:
+
+   ```bash
+   cd backend
+   npm run dev
+   ```
+
+2. Start the frontend development server:
+   ```bash
+   cd frontend
+   npm start
+   ```
+
+The application will be available at `http://localhost:3000`.
+
+## Testing
+
+The application includes comprehensive tests that verify:
+
+- Requests to valid URLs return a 200 HTTP status code
+- Requests to valid URLs return HTML generated from markdown files
+- Requests to invalid URLs return a 404 HTTP status code
+- Root path ("/") handling
+- Nested content paths
+- Template rendering
+- Error handling
+- Navigation functionality
+
+To run the tests:
+
+```bash
+cd backend
+npm test
+```
+
+## API Documentation
+
+### Endpoints
+
+- `GET /`: Returns the root page content
+- `GET /navigation`: Returns a JSON array of all available content paths
+- `GET /:path`: Returns the content for the specified path
+  - Returns 200 if content exists
+  - Returns 404 if content doesn't exist
+  - Returns 500 for server errors
+
+### Content Structure
+
+- Content is stored in markdown files (`index.md`) within folders
+- Each folder represents a URL path
+- The template.html file provides the base HTML structure
+- Content is rendered using the marked library
+
+## Deployment
+
+The application can be deployed to any cloud platform that supports Node.js applications. Here's how to deploy to Heroku:
+
+1. Create a Heroku app:
+
+   ```bash
+   heroku create
+   ```
+
+2. Set up the buildpacks:
+
+   ```bash
+   heroku buildpacks:add heroku/nodejs
+   ```
+
+3. Deploy:
+   ```bash
+   git push heroku main
+   ```
+
 ## Testing
 
 The application should be shipped with at minimum three tests, although your testing strategy should effectively test your application:

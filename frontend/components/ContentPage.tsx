@@ -1,0 +1,73 @@
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { marked } from "marked";
+import { fetchContent } from "../services/contentService";
+import "./ContentPage.css";
+
+const ContentPage = () => {
+  const location = useLocation();
+  const path = location.pathname.startsWith("/")
+    ? location.pathname.slice(1)
+    : location.pathname;
+  const navigate = useNavigate();
+  const [content, setContent] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        console.log("Fetching content for path:", path);
+        const markdownContent = await fetchContent(path);
+        const renderer = new marked.Renderer();
+        renderer.link = (href, title, text) => {
+          const cleanHref = href.startsWith("/") ? href.slice(1) : href;
+          return `<a href="${cleanHref}" onclick="event.preventDefault(); window.history.pushState({}, '', '/${cleanHref}'); return false;">${text}</a>`;
+        };
+        marked.setOptions({ renderer });
+        const htmlContent = marked.parse(markdownContent) as string;
+        setContent(htmlContent);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadContent();
+  }, [path]);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === "A") {
+        e.preventDefault();
+        const href = target.getAttribute("href");
+        if (href) {
+          navigate(href);
+        }
+      }
+    };
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [navigate]);
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
+
+  return (
+    <div className="content-page">
+      <div dangerouslySetInnerHTML={{ __html: content }} />
+    </div>
+  );
+};
+
+export default ContentPage;
