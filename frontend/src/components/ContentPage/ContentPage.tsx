@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { marked } from "marked";
 import { fetchContent } from "../../services/contentService";
-import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
+import SkeletonLoader from "../../SkeletonLoader/SkeletonLoader";
 import "./ContentPage.css";
 
 const ContentPage = () => {
@@ -23,7 +23,7 @@ const ContentPage = () => {
         console.log("Fetching content for path:", path);
         const markdownContent = await fetchContent(path);
         const renderer = new marked.Renderer();
-        renderer.link = (href, title, text) => {
+        renderer.link = (href, text) => {
           const cleanHref = href.startsWith("/") ? href.slice(1) : href;
           return `<a href="${cleanHref}" onclick="event.preventDefault(); window.history.pushState({}, '', '/${cleanHref}'); return false;">${text}</a>`;
         };

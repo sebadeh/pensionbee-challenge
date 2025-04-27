@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { fetchNavigation } from "../../services/navigationService";
-import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
+import SkeletonLoader from "../../SkeletonLoader/SkeletonLoader";
 import "./Navigation.css";
 
 interface NavigationItem {
@@ -49,7 +49,7 @@ const Navigation = () => {
       let currentPath = "";
       let currentParent: NavigationItem[] = root;
 
-      parts.forEach((part, index) => {
+      parts.forEach((part) => {
         currentPath = currentPath ? `${currentPath}/${part}` : part;
         const existingItem = map.get(currentPath);
 
