@@ -122,4 +122,45 @@ describe("Server Tests", () => {
     // Restore the template file
     fs.writeFileSync(TEST_TEMPLATE_PATH, originalTemplate);
   });
+
+  describe("API Content Endpoint Tests", () => {
+    test("GET /api/content/valid-page returns raw markdown content", async () => {
+      const response = await request(app).get("/api/content/valid-page");
+      expect(response.status).toBe(200);
+      expect(response.text).toBe("# Test Content\nThis is a test page.");
+    });
+
+    test("GET /api/content/non-existent returns 404", async () => {
+      const response = await request(app).get("/api/content/non-existent");
+      expect(response.status).toBe(404);
+      expect(response.text).toBe("Content not found");
+    });
+
+    test("GET /api/content/valid-page/nested returns nested content", async () => {
+      const response = await request(app).get("/api/content/valid-page/nested");
+      expect(response.status).toBe(200);
+      expect(response.text).toBe("# Nested Content\nThis is a nested page.");
+    });
+
+    test("GET /api/content/ returns root content", async () => {
+      const response = await request(app).get("/api/content/");
+      expect(response.status).toBe(200);
+      expect(response.text).toBe("# Root Content\nThis is the root page.");
+    });
+
+    test("handles server error when content directory is inaccessible", async () => {
+      // Mock fs.readFileSync to throw an error
+      const originalReadFileSync = fs.readFileSync;
+      fs.readFileSync = jest.fn().mockImplementation(() => {
+        throw new Error("EACCES: permission denied");
+      });
+
+      const response = await request(app).get("/api/content/valid-page");
+      expect(response.status).toBe(500);
+      expect(response.text).toBe("Internal Server Error");
+
+      // Restore original fs.readFileSync
+      fs.readFileSync = originalReadFileSync;
+    });
+  });
 });
