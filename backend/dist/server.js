@@ -95,6 +95,10 @@ exports.app.get("*", (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+// Catch-all: send back React's index.html for any other request
+exports.app.get("*", (req, res) => {
+    res.sendFile(path_1.default.join(__dirname, "../public", "index.html"));
+});
 // Only start listening if not in test environment
 if (process.env.NODE_ENV !== "test") {
     exports.app.listen(PORT, () => {

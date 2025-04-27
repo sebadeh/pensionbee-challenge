@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "cd ../frontend && npm install && npm run build && cd ../backend && npm install && tsc && cp -r ../frontend/dist ./public",
+    "build": "cd ../frontend && npm install && npm run build && cd ../backend && npm install && tsc && rm -rf ./public && mkdir -p ./public && cp -r ../frontend/dist/* ./public/",
     "test": "jest --detectOpenHandles"
   },
   "repository": {
