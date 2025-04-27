@@ -3,7 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { marked } from "marked";
 import { fetchContent } from "../../services/contentService";
 import SkeletonLoader from "../../SkeletonLoader/SkeletonLoader";
+import NotFound from "../NotFound/NotFound";
 import "./ContentPage.css";
+import "../../styles/content.css";
 
 const ContentPage: React.FC = () => {
   const location = useLocation();
@@ -14,12 +16,14 @@ const ContentPage: React.FC = () => {
   const [content, setContent] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [notFound, setNotFound] = useState<boolean>(false);
 
   useEffect(() => {
     const loadContent = async () => {
       try {
         setLoading(true);
         setError(null);
+        setNotFound(false);
         console.log("Fetching content for path:", path);
         const markdownContent = await fetchContent(path);
         const renderer = new marked.Renderer();
@@ -31,7 +35,11 @@ const ContentPage: React.FC = () => {
         const htmlContent = marked.parse(markdownContent) as string;
         setContent(htmlContent);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
+        if (err instanceof Error && err.message === "Content not found") {
+          setNotFound(true);
+        } else {
+          setError(err instanceof Error ? err.message : "An error occurred");
+        }
       } finally {
         setLoading(false);
       }
@@ -69,6 +77,10 @@ const ContentPage: React.FC = () => {
         </div>
       </div>
     );
+  }
+
+  if (notFound) {
+    return <NotFound />;
   }
 
   if (error) {
