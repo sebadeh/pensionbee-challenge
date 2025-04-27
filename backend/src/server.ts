@@ -123,6 +123,26 @@ app.get("*", (req, res, next) => {
   }
 });
 
+// API endpoint to serve raw markdown content for the frontend SPA
+app.get("/api/content/*", (req: Request, res: Response) => {
+  try {
+    const requestedPath = (req.params[0] as string) || "";
+    const contentPath = path.join(
+      app.locals.contentDir,
+      requestedPath,
+      "index.md"
+    );
+    if (fs.existsSync(contentPath)) {
+      const markdownContent = fs.readFileSync(contentPath, "utf-8");
+      res.status(200).send(markdownContent);
+    } else {
+      res.status(404).send("Content not found");
+    }
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../public")));
 
