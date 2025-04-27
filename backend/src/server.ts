@@ -6,9 +6,6 @@ import fs from "fs";
 export const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../public")));
-
 // Set default content and template paths
 app.locals.contentDir = path.join(__dirname, "content");
 app.locals.templatePath = path.join(__dirname, "template.html");
@@ -45,7 +42,7 @@ app.get("/navigation", (req, res) => {
 });
 
 // Middleware to handle markdown content
-app.get("*", (req, res) => {
+app.get("*", (req, res, next) => {
   try {
     const requestedPath = req.path === "/" ? "" : req.path;
     const contentPath = path.join(
@@ -89,17 +86,20 @@ app.get("*", (req, res) => {
           return;
         }
       }
-      // If no content found, return 404
-      res.status(404).send("Page not found");
+      // If no markdown content found, pass to next middleware
+      next();
     }
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
 });
 
-// Catch-all: send back React's index.html for any other request
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public", "index.html"));
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../public")));
+
+// Catch-all: return 404 for any remaining requests
+app.use((req, res) => {
+  res.status(404).send("Page not found");
 });
 
 // Only start listening if not in test environment
