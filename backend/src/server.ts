@@ -6,6 +6,9 @@ import fs from "fs";
 export const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../public")));
+
 // Set default content and template paths
 app.locals.contentDir = path.join(__dirname, "content");
 app.locals.templatePath = path.join(__dirname, "template.html");
@@ -92,6 +95,11 @@ app.get("*", (req, res) => {
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
+});
+
+// Catch-all: send back React's index.html for any other request
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "index.html"));
 });
 
 // Only start listening if not in test environment
