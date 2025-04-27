@@ -1,10 +1,39 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import { marked } from "marked";
 import path from "path";
 import fs from "fs";
+import cors from "cors";
 
 export const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Configure CORS
+const allowedOrigins = [
+  "https://pensionbee-challenge.vercel.app",
+  "http://localhost:5173", // Vite's default port
+  "http://localhost:3000", // Common React port
+];
+
+app.use(
+  cors({
+    origin: function (
+      origin: string | undefined,
+      callback: (err: Error | null, allow?: boolean) => void
+    ) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // Set default content and template paths
 app.locals.contentDir = path.join(__dirname, "content");
